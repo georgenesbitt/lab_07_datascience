@@ -13,9 +13,47 @@ library(dplyr)
 ```
 
 ```{r}
-read_csv("data/kansas_grouped_rolling_avg.csv")
+kansas <- read_csv("/Users/georgenesbitt/Desktop/Data Science/Labs/lab_07_datascience/kansas_grouped_rolling_avg.csv")
 ```
 
 ### Exercise 1
 
+```{r}
+ggplot(kansas, aes(x = date, 
+                   y = rolling_avg, 
+                   color = mask_mandate)) +
+  geom_line() +
+  scale_color_manual(values = c("Mask" = "orange",
+                                "No Mask" = "blue")) +
+  labs(
+    title = "Kansas COVID-19 7-Day Rolling Average of Daily Cases Per 100K Population",
+    subtitle = "Mask Counties vs. No-Mask Mandate Counties",
+    caption = "Source: Kansas Department of Health and Environment",
+    x = NULL,
+    y = "Cases per 100K Population",
+    color = NULL)
+```
+
+Below is the misleading graph:
+```{r}
+
+```
+
+
+Below is a much better and more accurate version of the misleading graph
+```{r}
+ggplot(kansas, aes(x = date, 
+                   y = rolling_avg, 
+                   color = mask_mandate)) +
+  geom_line() +
+  scale_color_manual(values = c("Mask" = "orange",
+                                "No Mask" = "blue")) +
+  labs(
+    title = "Kansas COVID-19 7-Day Rolling Average of Daily Cases Per 100K Population",
+    subtitle = "Mask Counties vs. No-Mask Mandate Counties",
+    caption = "Source: Kansas Department of Health and Environment",
+    x = NULL,
+    y = "Cases per 100K Population",
+    color = NULL)
+```
 ### Exercise 2
