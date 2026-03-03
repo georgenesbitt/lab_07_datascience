@@ -27,22 +27,14 @@ kansas <- read_csv("/Users/georgenesbitt/Desktop/Data Science/Labs/lab_07_datasc
 ### Exercise 1
 
 ``` r
-ggplot(kansas, aes(x = date, 
-                   y = rolling_avg, 
-                   color = mask_mandate)) +
-  geom_line() +
-  scale_color_manual(values = c("Mask" = "orange",
-                                "No Mask" = "blue")) +
-  labs(
-    title = "Kansas COVID-19 7-Day Rolling Average of Daily Cases Per 100K Population",
-    subtitle = "Mask Counties vs. No-Mask Mandate Counties",
-    caption = "Source: Kansas Department of Health and Environment",
-    x = NULL,
-    y = "Cases per 100K Population",
-    color = NULL)
+glimpse(kansas)
 ```
 
-![](lab-07_files/figure-gfm/recreation%20of%20misleading%20graph-1.png)<!-- -->
+    ## Rows: 46
+    ## Columns: 3
+    ## $ date         <date> 2020-07-12, 2020-07-13, 2020-07-14, 2020-07-15, 2020-07-…
+    ## $ rolling_avg  <dbl> 24.291579, 19.031075, 18.980073, 19.825251, 19.111221, 19…
+    ## $ mask_mandate <chr> "Mask", "Mask", "Mask", "Mask", "Mask", "Mask", "Mask", "…
 
 Below is the misleading graph: \### Excercise 2
 
@@ -85,3 +77,45 @@ cities typically have higher population densities and also typically
 have larger/more strict mask mandates. The lack of mask mandates in more
 rural areas with much lower population density is likely not enough to
 allow more covid cases.
+
+### Excercise 6
+
+For the this visual, I think that if I made the y axis percent change
+overtime as opposed to total case numbers, it might show a more balanced
+graph.
+
+### Excercise 7
+
+``` r
+kansas <- kansas %>% group_by(mask_mandate) %>%
+  mutate(indexed= (rolling_avg/first(rolling_avg))*100
+)
+```
+
+Above I just created a new variable in kansas that is titled indexed
+(the percent change over time). Below I’ll use the same code as the
+original graph with a new y variable (indexed)
+
+``` r
+ggplot(kansas, aes(x = date, 
+                   y = indexed, 
+                   color = mask_mandate)) +
+  geom_line() +
+  scale_color_manual(values = c("Mask" = "orange",
+                                "No Mask" = "blue")) +
+  labs(
+    title = "Kansas COVID-19 Percent change over time Per 100K Population",
+    subtitle = "Mask Counties vs. No-Mask Mandate Counties",
+    caption = "Source: Kansas Department of Health and Environment",
+    x = NULL,
+    y = "Percent of initial cases",
+    color = NULL)
+```
+
+![](lab-07_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+
+This shows that over time, the masked group fell far below the original
+number whereas the no mask group only fell about 2% below, essentially
+maintaining it’s original numbers.
+
+### Excercise 8
