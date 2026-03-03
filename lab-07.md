@@ -97,14 +97,11 @@ Above I just created a new variable in kansas that is titled indexed
 original graph with a new y variable (indexed)
 
 ``` r
-ggplot(kansas, aes(x = date, 
-                   y = indexed, 
-                   color = mask_mandate)) +
+ggplot(kansas, aes(x = date, y = indexed, color = mask_mandate)) +
   geom_line() +
   scale_color_manual(values = c("Mask" = "orange",
                                 "No Mask" = "blue")) +
-  labs(
-    title = "Kansas COVID-19 Percent change over time Per 100K Population",
+  labs(title = "Kansas COVID-19 Percent change over time Per 100K Population",
     subtitle = "Mask Counties vs. No-Mask Mandate Counties",
     caption = "Source: Kansas Department of Health and Environment",
     x = NULL,
@@ -119,3 +116,37 @@ number whereas the no mask group only fell about 2% below, essentially
 maintaining it’s original numbers.
 
 ### Excercise 8
+
+``` r
+knitr::include_graphics("misleadinggraph.png")
+```
+
+![](misleadinggraph.png)<!-- -->
+
+Here is my misleading graph. It is misleading because the y axis doesn’t
+start at 0 making latvia look like giants and India look like little
+people. I am going to add this data set manually (claude ai generated it
+for me) and then I am going to graph it using a bar graph the way it
+should be graphed such that they don’t look like they are drawing
+comparisons.
+
+``` r
+heights <- data.frame(
+  country = c("Latvia", "Australia", "Scotland", "Peru", "South Africa", "India"),
+  height_in = c(67, 63.7, 63.4, 61.5, 61.3, 59.9)  # in inches
+)
+```
+
+``` r
+ggplot(heights, aes(x=reorder(country, -height_in), y=height_in)) +
+  geom_col(fill="hotpink") +
+  scale_y_continuous(limits = c(0,70), breaks =seq(0,67, by = 1)) +
+  labs(title="Average female heigh country",
+       x=NULL,
+       y="Height in"
+  )
+```
+
+![](lab-07_files/figure-gfm/unnamed-chunk-5-1.png)<!-- --> This shows
+the height much better so that the scale of the y axis doesn’t make the
+countries look vastly different.
